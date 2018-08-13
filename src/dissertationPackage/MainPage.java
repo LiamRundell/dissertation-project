@@ -97,6 +97,23 @@ public class MainPage extends Application {
 			}
 		});
 		
+		// Travel Speed plot
+		Button lookDirButton = new Button("Look Direction Button");
+		lookDirButton.setDisable(true);
+		lookDirButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e) {
+				try {
+					LookDirectionPlot speedPlot = new LookDirectionPlot(plotData);
+					speedPlot.start(stage);
+				} 
+				catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
 		// Button for loading .csv file, instantiates the DataImporter, should activate other buttons once processed.
 		Button loadButton = new Button("Load Data");
 		loadButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -113,6 +130,7 @@ public class MainPage extends Application {
 					xyLocButton.setDisable(false);
 					koViewButton.setDisable(false);
 					speedTimeButton.setDisable(false);
+					lookDirButton.setDisable(false);
 					
 					// Populate and enable key object choice now dataImporter exists
 					// generateObjectList() defined for neatness
@@ -136,6 +154,7 @@ public class MainPage extends Application {
 		grid.add(koViewButton, 0, 3);
 		grid.add(keyObjectCombo, 1, 3);
 		grid.add(speedTimeButton, 0, 4);
+		grid.add(lookDirButton, 0, 5);
 		
 		// Finalise
 		Scene scene = new Scene(grid, 700, 500);

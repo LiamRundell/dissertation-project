@@ -55,7 +55,7 @@ public class XYLocationPlot extends Application {
 		final NumberAxis yAxis = new NumberAxis();
 		xAxis.setAutoRanging(false);
 		xAxis.setLabel("X Axis");
-		xAxis.setLowerBound(findLowerBound(plotData[3]) - 10);
+		xAxis.setLowerBound(findLowerBound(plotData[3]) - 30);
 		xAxis.setUpperBound(findUpperBound(plotData[3]) + 10);
 		yAxis.setAutoRanging(false);
 		yAxis.setLabel("Y Axis");
@@ -66,6 +66,8 @@ public class XYLocationPlot extends Application {
 		final ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
 		scatterChart.setTitle("XY Location Chart");
 		scatterChart.setMaxSize(600, 600);
+		scatterChart.setMinSize(600, 600);
+		scatterChart.setPrefSize(600, 600);
 		
 		//series holds the data for the plot
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
