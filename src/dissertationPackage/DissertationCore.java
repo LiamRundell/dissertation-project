@@ -1,12 +1,10 @@
 package dissertationPackage;
 
 import javafx.application.Application;
-import javafx.stage.Stage;
-import java.io.IOException;
 
 public class DissertationCore {
-	
-	
-
+	public static void main(String[] args) {
+		Application.launch(MainPage.class, args);
+	}
 	
 }
