@@ -26,10 +26,10 @@ public class MainPage extends Application {
 	private double keyObject = 0.0;
 	
 	@Override
-	public void start(Stage stage) {
+	public void start(Stage mainStage) {
 		
-		stage.setTitle("Main Page");
-		stage.show();
+		mainStage.setTitle("Main Page");
+		mainStage.show();
 		
 		Text sceneTitle = new Text("Welcome to the main page, there should eventually be options here I hope.");
 		
@@ -42,7 +42,7 @@ public class MainPage extends Application {
 			public void handle(ActionEvent e) {
 				try {
 					XYLocationPlot xyPlot = new XYLocationPlot(plotData);
-					xyPlot.start(stage);
+					xyPlot.start(mainStage);
 				} 
 				catch (Exception e1) {
 					e1.printStackTrace();
@@ -72,7 +72,7 @@ public class MainPage extends Application {
 					keyObject = centreObjectMap.get(keyObjectCombo.getValue());
 					KeyObjectViewPlot keyViewPlot = 
 							new KeyObjectViewPlot(plotData, centreObjectMap, keyObject);
-					keyViewPlot.start(stage);
+					keyViewPlot.start(mainStage);
 				}
 				catch (Exception e1) {
 					e1.printStackTrace();
@@ -89,7 +89,7 @@ public class MainPage extends Application {
 			public void handle(ActionEvent e) {
 				try {
 					TravelSpeedPlot speedPlot = new TravelSpeedPlot(plotData);
-					speedPlot.start(stage);
+					speedPlot.start(mainStage);
 				} 
 				catch (Exception e1) {
 					e1.printStackTrace();
@@ -97,8 +97,8 @@ public class MainPage extends Application {
 			}
 		});
 		
-		// Travel Speed plot
-		Button lookDirButton = new Button("Look Direction Button");
+		// Look direction plot
+		Button lookDirButton = new Button("Look Direction Plot");
 		lookDirButton.setDisable(true);
 		lookDirButton.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -106,7 +106,24 @@ public class MainPage extends Application {
 			public void handle(ActionEvent e) {
 				try {
 					LookDirectionPlot speedPlot = new LookDirectionPlot(plotData);
-					speedPlot.start(stage);
+					speedPlot.start(mainStage);
+				} 
+				catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		// Head oscillations plot
+		Button oscilButton = new Button("Head Oscillations Plot");
+		oscilButton.setDisable(true);
+		oscilButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e) {
+				try {
+					HeadOscillationPlot oscilPlot = new HeadOscillationPlot(plotData);
+					oscilPlot.start(mainStage);
 				} 
 				catch (Exception e1) {
 					e1.printStackTrace();
@@ -131,6 +148,7 @@ public class MainPage extends Application {
 					koViewButton.setDisable(false);
 					speedTimeButton.setDisable(false);
 					lookDirButton.setDisable(false);
+					oscilButton.setDisable(false);
 					
 					// Populate and enable key object choice now dataImporter exists
 					// generateObjectList() defined for neatness
@@ -155,10 +173,11 @@ public class MainPage extends Application {
 		grid.add(keyObjectCombo, 1, 3);
 		grid.add(speedTimeButton, 0, 4);
 		grid.add(lookDirButton, 0, 5);
+		grid.add(oscilButton, 0, 6);
 		
 		// Finalise
 		Scene scene = new Scene(grid, 700, 500);
-		stage.setScene(scene);
+		mainStage.setScene(scene);
 	}
 
 	

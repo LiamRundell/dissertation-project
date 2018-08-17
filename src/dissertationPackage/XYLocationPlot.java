@@ -74,7 +74,7 @@ public class XYLocationPlot extends Application {
 		series.setName("Location - Bird's eye view");
 		
 		//add data to the series for plotting
-		for(int i = 1; i < plotData.length; i += 1) {
+		for(int i = 1; i < plotData.length; i += 10) {
 			series.getData().add(new XYChart.Data<Number, Number>(plotData[i][2], plotData[i][4]));
 			System.out.println("Column " + i + " loaded.");
 		}

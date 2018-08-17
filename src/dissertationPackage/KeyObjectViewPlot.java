@@ -43,10 +43,10 @@ public class KeyObjectViewPlot extends Application {
 	}
 
 	@Override
-	public void start(Stage koStage) throws Exception {
+	public void start(Stage mainStage) throws Exception {
 		// Generate display format and grid.
-		koStage.setTitle("XYGraph Test");
-		koStage.show();
+		mainStage.setTitle("XYGraph Test");
+		mainStage.show();
 		
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.TOP_CENTER);
@@ -105,7 +105,7 @@ public class KeyObjectViewPlot extends Application {
 		
 		Scene scene = new Scene(grid, 1000, 700);
 		
-		koStage.setScene(scene);
-		koStage.show();
+		mainStage.setScene(scene);
+		mainStage.show();
 	}
 }
