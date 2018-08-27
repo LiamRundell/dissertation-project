@@ -57,18 +57,34 @@ public class TravelSpeedPlot extends Application {
 		
 		final LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		lineChart.setTitle("Movement Speed Chart");
-		lineChart.setMaxSize(800, 400);
-		lineChart.setMinSize(800, 400);
+		lineChart.setMaxSize(1600, 400);
+		lineChart.setMinSize(500, 400);
 		lineChart.setPrefSize(800, 400);
 		
 		//series holds the data for the plot
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-		series.setName("Movement Speed /TBC");
+		series.setName("Movement Speed / 0.5 second(s)");
 		
 		//add data to the series for plotting
-		for(int i = 1; i < plotData.length; i += 1) {
-			series.getData().add(new XYChart.Data<Number, Number>(plotData[i][0], plotData[i][31]));
-			System.out.println("Column " + i + " loaded.");
+		for(int i = 0; i < plotData.length / 10; i++) {
+			double totalx = 0;
+			int countx= 0;
+
+			for(int k = 0; k < 10; k++) {
+				try {
+					totalx += plotData[(i * 10) + k][31];
+					countx++;
+				}
+				catch (ArrayIndexOutOfBoundsException e1) {
+					break;
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// Use totals and counts to get average and add to series
+			series.getData().add(new XYChart.Data<Number, Number>(plotData[i*10][0], totalx / countx));
 		}
 		
 		lineChart.getData().add(series);

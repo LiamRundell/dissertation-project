@@ -12,8 +12,7 @@ import com.opencsv.CSVReader;
 public class DataImporter {
 	
 	private String csvPath = null;
-	private HashMap<String, Integer> centreObjectMap = new HashMap<String, Integer>();
-	
+	private HashMap<String, Integer> centreObjectMap = new HashMap<String, Integer>();	
 	
 	/**
 	 * DataImporter Class, used to read the CSV files output from the HMD headset using the read() command.

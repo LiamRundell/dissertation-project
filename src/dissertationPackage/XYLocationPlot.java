@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
@@ -53,17 +54,18 @@ public class XYLocationPlot extends Application {
 		//axes
 		final NumberAxis xAxis = new NumberAxis();
 		final NumberAxis yAxis = new NumberAxis();
-		xAxis.setAutoRanging(false);
-		xAxis.setLabel("X Axis");
-		xAxis.setLowerBound(findLowerBound(plotData[3]) - 30);
-		xAxis.setUpperBound(findUpperBound(plotData[3]) + 10);
 		yAxis.setAutoRanging(false);
-		yAxis.setLabel("Y Axis");
-		yAxis.setLowerBound(findLowerBound(plotData[5]) - 10);
-		yAxis.setUpperBound(findUpperBound(plotData[5]) + 10);
+		yAxis.setLowerBound(findLowerBound(plotData, 4) - 10);
+		yAxis.setUpperBound(findUpperBound(plotData, 4) + 10);
+		xAxis.setAutoRanging(false);
+		xAxis.setLowerBound(findLowerBound(plotData, 2) - 10);
+		xAxis.setUpperBound(findUpperBound(plotData, 2) + 10);
+		yAxis.setTickLabelsVisible(false);
+		xAxis.setTickLabelsVisible(false);
 		
 		
 		final ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
+		scatterChart.setId("xyloc");
 		scatterChart.setTitle("XY Location Chart");
 		scatterChart.setMaxSize(600, 600);
 		scatterChart.setMinSize(600, 600);
@@ -73,10 +75,30 @@ public class XYLocationPlot extends Application {
 		XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 		series.setName("Location - Bird's eye view");
 		
-		//add data to the series for plotting
-		for(int i = 1; i < plotData.length; i += 10) {
-			series.getData().add(new XYChart.Data<Number, Number>(plotData[i][2], plotData[i][4]));
-			System.out.println("Column " + i + " loaded.");
+		//add data to the series for plotting, calculate average per half-second (10 rows) for speed
+		for(int i = 0; i < plotData.length / 10; i++) {
+			double totalx = 0;
+			int countx= 0;
+			double totaly = 0;
+			int county= 0;
+			
+			for(int k = 0; k < 10; k++) {
+				try {
+					totalx += plotData[(i * 10) + k][2];
+					totaly += plotData[(i * 10) + k][4];
+					countx++;
+					county++;
+				}
+				catch (ArrayIndexOutOfBoundsException e1) {
+					break;
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			
+			// Use totals and counts to get average and add to series
+			series.getData().add(new XYChart.Data<Number, Number>((totalx / countx), (totaly / county)));
 		}
 		
 		scatterChart.getData().add(series);
@@ -85,31 +107,34 @@ public class XYLocationPlot extends Application {
 		grid.add(scatterChart, 0, 2);
 		grid.add(buttonBox, 0, 4);
 		
-		grid.setGridLinesVisible(true);
+		// grid.setGridLinesVisible(true);
 		
 		Scene scene = new Scene(grid, 1000, 700);
 		
 		mainStage.setScene(scene);
+		scene.getStylesheets().add("XYChartCSS.css");
 		mainStage.show();
 	}
 	
-	private double findLowerBound(double[] arr) {
-		double lower = arr[0];
-		for (double i : arr) {
-			if (lower > i) {
-				lower = i;
+	public static double findLowerBound(double[][] arr, int col) {
+		double lower = arr[0][0];
+		for (double[] i : arr) {
+			if (lower > i[col]) {
+				lower = i[col];
 			}
 		}
+		//System.out.println("lower: " + lower);
 		return lower;
 	}
 	
-	private double findUpperBound(double[] arr) {
-		double upper = arr[0];
-		for (double i : arr) {
-			if (upper < i) {
-				upper = i;
+	public static double findUpperBound(double[][] arr, int col) {
+		double upper = arr[0][0];
+		for (double[] i : arr) {
+			if (upper < i[col]) {
+				upper = i[col];
 			}
 		}
+		//System.out.println("upper: " + upper);
 		return upper;
 	}
 }
